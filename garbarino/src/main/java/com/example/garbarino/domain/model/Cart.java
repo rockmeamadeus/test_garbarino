@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.aggregation.ArrayOperators;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -54,9 +55,9 @@ public class Cart {
         }
     }
 
-    public boolean itemAlreadyExist(Item item) {
+    public boolean itemAlreadyExist(String productId) {
         return items.stream()
-                .anyMatch(i -> i.getProduct().getId().equals(item.getProduct().getId()));
+                .anyMatch(i -> i.getProduct().getId().equals(productId));
     }
 
 
