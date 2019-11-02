@@ -81,6 +81,9 @@ public class CartServiceImpl implements CartService {
 
         return cartMono.flatMap(cart -> {
 
+            if (cart.getItems().size() == 0) {
+                return Mono.error(new IllegalArgumentException("Cart is empty, we can not go any further"));
+            }
             cart.setStatus(Status.READY);
 
             return cartRepository.save(cart);

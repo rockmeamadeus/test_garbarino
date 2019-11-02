@@ -1,6 +1,8 @@
 package com.example.garbarino;
 
 import com.example.garbarino.domain.model.Product;
+import com.example.garbarino.domain.persistence.CartRepository;
+import com.example.garbarino.domain.persistence.LineItemRepository;
 import com.example.garbarino.domain.persistence.ProductRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,12 @@ public class GarbarinoApplication implements CommandLineRunner {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private LineItemRepository lineItemRepository;
+
     public static void main(String[] args) {
         SpringApplication.run(GarbarinoApplication.class, args);
     }
@@ -30,6 +38,8 @@ public class GarbarinoApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         productRepository.deleteAll().subscribe();
+        cartRepository.deleteAll().subscribe();
+        lineItemRepository.deleteAll().subscribe();
 
         Product product1 = Product.builder().description("TV 32").stock(150).unitPrice(BigDecimal.valueOf(32.43)).build();
         Product product2 = Product.builder().description("TV 40").stock(100).unitPrice(BigDecimal.valueOf(60.43)).build();

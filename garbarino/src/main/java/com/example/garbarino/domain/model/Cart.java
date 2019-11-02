@@ -50,7 +50,7 @@ public class Cart {
 
         if (item.isPresent()) {
             total = total.subtract(item.get().getTotal());
-            items.removeIf(i -> i.getProduct().getId().equals(item.get().getId()));
+            items.removeIf(i -> i.getProduct().getId().equals(item.get().getProduct().getId()));
         }
     }
 
