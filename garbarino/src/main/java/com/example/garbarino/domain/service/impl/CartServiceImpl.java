@@ -39,16 +39,16 @@ public class CartServiceImpl implements CartService {
         Mono<Product> productMono = productRepository.findById(productDto.getId());
         Mono<Cart> cartMono = cartRepository.findById(cartId);
 
-        return cartMono.
+        cartMono.
                 flatMap(cart -> cart.itemAlreadyExist(productDto.getId()) ?
                         Mono.error(new IllegalArgumentException
                                 ("The product already exist, we can not go any further")) :
-                        Mono.just(cart)).
-                flatMap(cart ->
-                        productMono.map(product -> Item.builder().
-                                price(product.getUnitPrice()).
-                                quantity(productDto.getQuantity()).
-                                product(product).build())).
+                        Mono.just(cart));
+
+        return productMono.map(product -> Item.builder().
+                price(product.getUnitPrice()).
+                quantity(productDto.getQuantity()).
+                product(product).build()).
                 flatMap(item -> lineItemRepository.save(item)).
                 flatMap(item -> cartMono.flatMap(cart -> {
                     cart.addItem(item);
