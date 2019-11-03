@@ -1,13 +1,9 @@
 version: '3'
 services:
   appcontainer:
-     build:
-      context: .
-      args:
-        JAR_FILE: garbarino-0.0.1-SNAPSHOT.jar
      restart: always
      ports:
-      - "8090:8080"
+      - "8080:8080"
      links:
        - mongo
      depends_on:
