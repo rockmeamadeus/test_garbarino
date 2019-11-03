@@ -2,7 +2,7 @@ package com.example.garbarino.domain.service;
 
 
 import com.example.garbarino.domain.model.Cart;
-import com.example.garbarino.domain.model.dto.ProductDto;
+import com.example.garbarino.domain.model.dto.addProduct.ProductDto;
 import reactor.core.publisher.Mono;
 
 public interface CartService {

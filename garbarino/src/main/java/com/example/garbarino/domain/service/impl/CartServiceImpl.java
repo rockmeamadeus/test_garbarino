@@ -4,7 +4,7 @@ import com.example.garbarino.domain.model.Cart;
 import com.example.garbarino.domain.model.Item;
 import com.example.garbarino.domain.model.Product;
 import com.example.garbarino.domain.model.Status;
-import com.example.garbarino.domain.model.dto.ProductDto;
+import com.example.garbarino.domain.model.dto.addProduct.ProductDto;
 import com.example.garbarino.domain.persistence.CartRepository;
 import com.example.garbarino.domain.persistence.LineItemRepository;
 import com.example.garbarino.domain.persistence.ProductRepository;
@@ -12,9 +12,6 @@ import com.example.garbarino.domain.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
-import java.math.BigDecimal;
-import java.util.stream.Collectors;
 
 @Service
 public class CartServiceImpl implements CartService {

@@ -1,4 +1,4 @@
-package com.example.garbarino.domain.model.dto;
+package com.example.garbarino.domain.model.dto.getCart;
 
 import com.example.garbarino.domain.model.Cart;
 import com.example.garbarino.domain.model.Item;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-public class GetCartResponseDto {
+public class Response {
 
     private BigDecimal total;
 
     private List<String> productIds = new ArrayList();
 
-    public GetCartResponseDto(Cart cart) {
+    public Response(Cart cart) {
 
         total = cart.getTotal();
 

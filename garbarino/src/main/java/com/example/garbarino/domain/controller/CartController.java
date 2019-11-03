@@ -1,10 +1,9 @@
 package com.example.garbarino.domain.controller;
 
 
-import com.example.garbarino.domain.model.dto.GetCartResponseDto;
+import com.example.garbarino.domain.model.dto.getCart.Response;
 import com.example.garbarino.domain.model.Cart;
-import com.example.garbarino.domain.model.dto.ProductDto;
-import com.example.garbarino.domain.model.dto.RetrieveProductsFromCartResponseDto;
+import com.example.garbarino.domain.model.dto.addProduct.ProductDto;
 import com.example.garbarino.domain.service.CartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,17 +43,17 @@ public class CartController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<ResponseEntity<GetCartResponseDto>> retrieveCart(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<Response>> retrieveCart(@PathVariable("id") String id) {
         log.info("Entering to retrieveCart...");
-        return cartService.findById(id).map(GetCartResponseDto::new).map(ResponseEntity::ok)
+        return cartService.findById(id).map(Response::new).map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
     @GetMapping("/{id}/products")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<ResponseEntity<RetrieveProductsFromCartResponseDto>> retrieveProductsFromCart(@PathVariable("id") String id) {
+    public Mono<ResponseEntity<com.example.garbarino.domain.model.dto.retrieveProducts.Response>> retrieveProductsFromCart(@PathVariable("id") String id) {
         log.info("Entering to retrieveProductFromCart...");
-        return cartService.findById(id).map(RetrieveProductsFromCartResponseDto::new).map(ResponseEntity::ok)
+        return cartService.findById(id).map(com.example.garbarino.domain.model.dto.retrieveProducts.Response::new).map(ResponseEntity::ok)
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 

@@ -1,4 +1,4 @@
-package com.example.garbarino.domain.model.dto;
+package com.example.garbarino.domain.model.dto.addProduct;
 
 import lombok.Data;
 
