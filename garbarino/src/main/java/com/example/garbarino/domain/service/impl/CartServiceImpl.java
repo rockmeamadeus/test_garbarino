@@ -37,20 +37,18 @@ public class CartServiceImpl implements CartService {
                 findById(productDto.getId()).switchIfEmpty(Mono.error(new Exception("No Product found with Id: " + productDto.getId())));
         Mono<Cart> cartMono = cartRepository.findById(cartId).switchIfEmpty(Mono.error(new Exception("No Cart found with Id: " + cartId)));
 
-        cartMono.
+       return cartMono.
                 flatMap(cart -> cart.itemAlreadyExist(productDto.getId()) ?
                         Mono.error(new Exception("The product already exist, we can not go any further")) :
-                        Mono.just(cart));
-
-        return productMono.map(product -> Item.builder().
+                        Mono.just(cart)).flatMap(cart -> productMono.map(product -> Item.builder().
                 unitPrice(product.getUnitPrice()).
                 quantity(productDto.getQuantity()).
                 product(product).build()).
                 flatMap(item -> lineItemRepository.save(item)).
-                flatMap(item -> cartMono.flatMap(cart -> {
-                    cart.addItem(item);
-                    return cartRepository.save(cart);
-                }));
+                flatMap(item -> cartMono.flatMap(cartToUpdate -> {
+                    cartToUpdate.addItem(item);
+                    return cartRepository.save(cartToUpdate);
+                })));
     }
 
     @Override
