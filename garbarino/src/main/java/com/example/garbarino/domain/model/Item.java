@@ -23,12 +23,10 @@ public class Item {
 
     private Integer quantity;
 
-    private BigDecimal price;
-
     @DBRef
     private Product product;
 
     public BigDecimal getTotal() {
-        return price.multiply(new BigDecimal(quantity));
+        return product.getUnitPrice().multiply(new BigDecimal(quantity));
     }
 }

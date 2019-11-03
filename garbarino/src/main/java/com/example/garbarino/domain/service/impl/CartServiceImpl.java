@@ -36,17 +36,16 @@ public class CartServiceImpl implements CartService {
     @Override
     public Mono<Cart> addProduct(String cartId, ProductDto productDto) {
 
-        Mono<Product> productMono = productRepository.findById(productDto.getId());
-        Mono<Cart> cartMono = cartRepository.findById(cartId);
+        Mono<Product> productMono = productRepository.
+                findById(productDto.getId()).switchIfEmpty(Mono.error(new Exception("No Product found with Id: " + productDto.getId())));
+        Mono<Cart> cartMono = cartRepository.findById(cartId).switchIfEmpty(Mono.error(new Exception("No Cart found with Id: " + cartId)));
 
         cartMono.
                 flatMap(cart -> cart.itemAlreadyExist(productDto.getId()) ?
-                        Mono.error(new IllegalArgumentException
-                                ("The product already exist, we can not go any further")) :
+                        Mono.error(new Exception("The product already exist, we can not go any further")) :
                         Mono.just(cart));
 
         return productMono.map(product -> Item.builder().
-                price(product.getUnitPrice()).
                 quantity(productDto.getQuantity()).
                 product(product).build()).
                 flatMap(item -> lineItemRepository.save(item)).
@@ -59,7 +58,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public Mono<Cart> removeProduct(String id, String productId) {
 
-        Mono<Cart> cartMono = cartRepository.findById(id);
+        Mono<Cart> cartMono = cartRepository.findById(id).switchIfEmpty(Mono.error(new Exception("No Cart found with Id: " + id)));
 
         return cartMono.flatMap(cart -> {
 
@@ -76,7 +75,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Mono<Cart> checkout(String id) {
-        Mono<Cart> cartMono = cartRepository.findById(id);
+        Mono<Cart> cartMono = cartRepository.findById(id).switchIfEmpty(Mono.error(new Exception("No Cart found with Id: " + id)));
 
         return cartMono.flatMap(cart -> {
 
