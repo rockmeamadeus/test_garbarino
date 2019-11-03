@@ -46,6 +46,7 @@ public class CartServiceImpl implements CartService {
                         Mono.just(cart));
 
         return productMono.map(product -> Item.builder().
+                unitPrice(product.getUnitPrice()).
                 quantity(productDto.getQuantity()).
                 product(product).build()).
                 flatMap(item -> lineItemRepository.save(item)).
